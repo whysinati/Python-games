@@ -2,7 +2,7 @@ from itertools import cycle
 from random import randrange
 from tkinter import Canvas, Tk, messagebox, font
 from playsound import playsound
-#import winsound
+import winsound
 #from winsound import PlaySound, SND_FILENAME, SND_LOOP, SND_ASYNC
 
 canvas_width = 800
@@ -46,6 +46,10 @@ lives_remaining = 3
 lives_text = c.create_text(canvas_width - 10, 10, anchor='ne', font = game_font, fill='darkblue', \
                     text='Lives: ' + str(lives_remaining))
 
+#define message to indicate dropped egg
+dropped = c.create_text(canvas_width/2, canvas_height/2, font = game_font, fill='red', \
+                    text='DROPPED!', state=HIDDEN)
+
 eggs = []
 
 def create_egg():
@@ -66,6 +70,7 @@ def move_eggs():
 def egg_dropped(egg):
     eggs.remove(egg)
     c.delete(egg)
+    c.itemconfigure(dropped, state=NORMAL) #show "dropped" message
     lose_a_life()
     if lives_remaining == 0:
         messagebox.showinfo('Game Over!', 'Final Score: ' + str(score))
@@ -92,7 +97,8 @@ def increase_score(points):
     egg_speed = int(egg_speed * difficulty_factor)
     egg_interval = int(egg_interval * difficulty_factor)
     c.itemconfigure(score_text, text='Score: ' + str(score))
-
+    c.itemconfigure(dropped, state=HIDDEN) #hide "dropped" message
+    
 def move_left(event):
     (x1, y1, x2, y2) = c.coords(catcher)
     if x1 > 0:
@@ -105,7 +111,7 @@ def move_right(event):
 
 c.bind('<Left>', move_left)
 c.bind('<Right>', move_right)
-#playsound('C:\BooStuff\Music\IMAYcredits1.mp3', False)
+playsound('C:\xxx\xxxxx\xx.mp3', False) #add location of mp3 for sound
 #winsound.PlaySound('C:\BooStuff\Music\IMAYcredits1.mp3', SND_ASYNC | SND_LOOP)
 c.focus_set()
 
